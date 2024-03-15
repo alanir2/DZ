@@ -1,0 +1,45 @@
+def string_to_int(s):  # добавить обработку ValueError
+    try:
+        return int(s)
+    except ValueError:
+        print('Ошибка ValueError')
+
+def read_file(filename): # добавить обработку FileNotFoundError, IOError
+    try:
+        with open(filename, 'r') as file:
+            return file.read()
+    except FileNotFoundError:
+        print('Ошибка ValueError')
+    except IOError:
+        print('Ошибка IOError')
+def divide_numbers(a, b): # добавить обработку ZeroDivisionError, TypeError
+    try:
+        return a / b
+    except ZeroDivisionError:
+        print('Ошибка ZeroDivisionError')
+    except TypeError:
+        print('Ошибка TypeError')
+def access_list_element(lst, index): # добавить обработку IndexError, TypeError
+    try:
+        return lst[index]
+    except IndexError:
+        print('Ошибка IndexError')
+    except TypeError:
+        print('Ошибка TypeError')
+
+def MeExceptionn(arg):
+    if arg == 'Ошибка':
+        try:
+            raise NameError('было слово Ошибка')
+        except NameError as ec:
+            print(f'{ec}')
+    elif arg == 'Пара':
+        try:
+            raise ValueError('было слово "Пара"')
+        except ValueError as ecc:
+            print(f'{ecc}')
+    else:
+        print(f'{arg}')
+MeExceptionn('Привет')
+MeExceptionn('Ошибка')
+MeExceptionn('Пара')
