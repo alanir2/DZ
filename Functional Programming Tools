@@ -1,0 +1,40 @@
+def calculator(zn):
+    if zn == '*':
+        def mult(x, y):
+            return x*y
+        return mult
+    elif zn == '+':
+        def add(x, y):
+            return x+y
+        return add
+    elif zn == '-':
+        def subtract(x, y):
+            return x-y
+        return subtract
+    elif zn == '/':
+        def division(x, y):
+            if y == 0:
+                return ('Ошибка, на 0 делить нелья!')
+            else:
+                return x / y
+        return division
+    else:
+        return ('Hедопустимые значения')
+my_add_function = calculator('/')
+print(my_add_function(2, 0))
+#Задача 2: Лямбда-Функции
+multiply = lambda x: x ** 2
+print(multiply(6))
+def multiply_def(x):
+    return x**2
+print(multiply_def(6))
+#Задача 3: Вызываемые Объекты
+class Rect:
+    def __init__(self, a):
+        self.a = a
+
+    def __call__(self, b):
+        print(f'Стороны: {self.a}, {b}')
+        return f'Площадь: {self.a * b}'
+a= Rect(2)
+print(a(4))
