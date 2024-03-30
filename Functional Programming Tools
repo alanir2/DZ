@@ -1,3 +1,5 @@
+#Задача 1: Фабрика Функций
+
 def calculator(zn):
     if zn == '*':
         def mult(x, y):
@@ -23,12 +25,14 @@ def calculator(zn):
 my_add_function = calculator('/')
 print(my_add_function(2, 0))
 #Задача 2: Лямбда-Функции
+
 multiply = lambda x: x ** 2
 print(multiply(6))
 def multiply_def(x):
     return x**2
 print(multiply_def(6))
 #Задача 3: Вызываемые Объекты
+
 class Rect:
     def __init__(self, a):
         self.a = a
