@@ -1,35 +1,42 @@
-def test(a, b=4, *args, **kwargs):
-    print('a and b', a, b)
-    print('type', type(args))
-    print(args)
-    for i, arg in enumerate(args):
-        print('poz primer', i, arg)
-    print('tip kwargs', type(kwargs))
-    print(kwargs)
-    for key, value in kwargs.items():
-        print('imen arg', key, '=', value)
+import unittest
 
 
-test(5, 6, 7, 8, cat='mow')
-test(5, b=8, cat='mow')
-test(5, cat='mow', address='moscow')
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.distance = 0
 
-# Факториал
-def factorial_1(n):
-    if n == 1:
-        return 1
-    fac_min_1 = factorial_1(n=n - 1)
-    return n * fac_min_1
+    def run(self):
+        self.distance += 10
 
+    def walk(self):
+        self.distance += 5
 
-print(factorial_1(9))
+    def __str__(self):
+        return self.name
+class TestStudent(unittest.TestCase):
 
+    def test_walk_distance(self):
+        student = Student("John")
+        for _ in range(10):
+            student.walk()
+        self.assertEqual(student.distance, 50, "Дистанции не равны {student} != 500")
 
-def factorial_2(x):
-    pr = 1
-    for i in range(1, x+1):
-        pr = pr * i
-    return pr
+    def test_run_distance(self):
+        student = Student("Alice")
+        for _ in range(10):
+            student.run()
+        self.assertEqual(student.distance, 100, "Дистанции не равны {} != 100".format(student.distance))
 
+    def test_running_vs_walking(self):
+        running_student = Student("Bob")
+        walking_student = Student("Eve")
+        for _ in range(10):
+            running_student.run()
+            walking_student.walk()
+        self.assertLess(running_student.distance, walking_student.distance,
+                           "{} должен преодолеть дистанцию больше, чем {}".format(running_student.name,
+                                                                                  walking_student.name))
 
-print(factorial_2(9))
+if __name__ == '__main__':
+    unittest.main()
