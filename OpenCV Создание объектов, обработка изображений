@@ -1,0 +1,28 @@
+import cv2
+import numpy as np
+
+photo = np.zeros((400, 400, 3), dtype='uint8')
+
+# photo[:] = 255, 0, 0
+cv2.circle(photo, (photo.shape[1]//2, photo.shape[0]//2), 150, (255, 255, 255), thickness=3)
+
+cv2.line(photo, (150,150), (170, 150), (9, 9, 222), thickness=3)
+cv2.line(photo, (230,150), (250, 150), (9, 9, 222), thickness=3)
+
+center = (200, 200)
+axes = (50, 50)
+angle = 0
+startAngle = 180
+endAngle = 0
+color = (255, 255, 255)
+thickness =3  # Заполняем полукруг
+
+# Рисуем полукруг
+cv2.ellipse(photo, center, axes, angle, startAngle, endAngle, (48, 191, 46), thickness)
+cv2.ellipse(photo, (200, 200), (30, 30), angle, startAngle, endAngle, (48, 191, 46), thickness)
+cv2.line(photo, (150, 150), (150, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (170, 150), (170, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (230, 150), (230, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (250, 150), (250, 200), (255, 0, 0), thickness=3)
+cv2.imshow('Photo', photo)
+cv2.waitKey(0)
