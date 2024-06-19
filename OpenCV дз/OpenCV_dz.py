@@ -1,0 +1,43 @@
+import cv2
+import numpy as np
+
+photo = np.zeros((400, 400, 3), dtype='uint8')
+
+start_color = (0, 0, 0)  # черный
+end_color = (150, 150, 150)  # серый
+
+# Заполняем прямоугольную область цветовым градиентом
+# cv2.rectangle(photo, (0, 0), (400, 400), start_color, -1)
+for i in range(400):
+    cv2.rectangle(photo, (0, i), (400, i+1), tuple([int(start_color[j] + (end_color[j] - start_color[j]) * i / 400) for j in range(3)]), -1)
+
+# Отображаем изображение
+
+
+# photo[:] = 255, 0, 0
+
+
+cv2.circle(photo, (photo.shape[1]//2, photo.shape[0]//2), 150, (255, 255, 255), thickness=3)
+
+cv2.line(photo, (150,150), (170, 150), (9, 9, 222), thickness=3)
+cv2.line(photo, (230,150), (250, 150), (9, 9, 222), thickness=3)
+
+center = (200, 200)
+axes = (50, 50)
+angle = 0
+startAngle = 180
+endAngle = 0
+color = (255, 255, 255)
+thickness =3  # Заполняем полукруг
+
+# Рисуем полукруг
+cv2.ellipse(photo, center, axes, angle, startAngle, endAngle, (48, 191, 46), thickness)
+cv2.ellipse(photo, (200, 200), (30, 30), angle, startAngle, endAngle, (48, 191, 46), thickness)
+cv2.line(photo, (150, 150), (150, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (170, 150), (170, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (230, 150), (230, 200), (255, 0, 0), thickness=3)
+cv2.line(photo, (250, 150), (250, 200), (255, 0, 0), thickness=3)
+
+cv2.imshow('Photo', photo)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
