@@ -1,0 +1,37 @@
+import cv2
+
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+cup = cv2.VideoCapture('vidio/1.webm')
+cup.set(3, 300)
+cup.set(4, 500)
+
+while True:
+    success, img = cup.read()
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    faces = face_cascade.detectMultiScale(img, scaleFactor=1.1, minNeighbors=2)
+
+    for (x, y, w, h) in faces:  # сначала нахожу лицо
+        # cv2.rectangle(img, (x, y), (x + w, y + h), (150, 150, 150), thickness=2) # убираю лишнюю отрисовку
+        roi_gray = img[y:y + h, x:x + w]
+        roi_color = img[y:y + h, x:x + w]
+        eyes = eye_cascade.detectMultiScale(roi_gray, scaleFactor=1.1, minNeighbors=2)
+
+        for (ex, ey, ew, eh) in eyes:  # затем на лице нахожу глаза
+            # cv2.rectangle(roi_color, (0, ey), (roi_color.shape[0], ey + eh), (0, 0, 0), 1) # убираю лишнюю отрисовку
+            roi_color2 = roi_color[ey:ey + eh, 0:roi_color.shape[0]]
+            roi_color2 = cv2.GaussianBlur(roi_color2, (51, 51), 51)
+            roi_color[ey:ey + eh, 0:roi_color.shape[0]] = roi_color2
+
+    img = img[::, ::-1]
+    cv2.imshow('Result', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+
+# cv2.imread('videos/istockphoto-1354194328-640_adpp_is.mp4')  # сохраняю закрытием окна
+cup.release()
+cv2.destroyAllWindows()
