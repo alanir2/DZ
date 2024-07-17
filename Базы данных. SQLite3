@@ -1,0 +1,64 @@
+import sqlite3
+# Создание базы данных
+conn = sqlite3.connect('students.db')
+cursor = conn.cursor()
+
+# Создание таблицы students
+cursor.execute('''CREATE TABLE students
+                  (id INTEGER PRIMARY KEY,
+                   name TEXT,
+                   age INTEGER)''')
+
+# Создание таблицы grades
+cursor.execute('''CREATE TABLE grades
+                  (id INTEGER PRIMARY KEY,
+                   student_id INTEGER,
+                   subject TEXT,
+                   grade REAL,
+                   FOREIGN KEY (student_id) REFERENCES students(id))''')
+
+# Сохранение изменений и закрытие соединения
+conn.commit()
+conn.close()
+class University:
+    def __init__(self, name):
+        self.name = name
+
+    def add_student(self, name, age):
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO students (name, age) VALUES (?, ?)", (name, age))
+        conn.commit()
+        conn.close()
+
+    def add_grade(self, student_id, subject, grade):
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO grades (student_id, subject, grade) VALUES (?, ?, ?)", (student_id, subject, grade))
+        conn.commit()
+        conn.close()
+
+    def get_students(self, subject=None):
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        if subject:
+            cursor.execute("SELECT students.name, students.age, grades.subject, grades.grade FROM students INNER JOIN grades ON students.id = grades.student_id WHERE grades.subject = ?", (subject,))
+        else:
+            cursor.execute("SELECT students.name, students.age, grades.subject, grades.grade FROM students INNER JOIN grades ON students.id = grades.student_id")
+        students = cursor.fetchall()
+        conn.close()
+        return students
+university = University("Мой университет")
+
+university.add_student("Иван", 26)
+university.add_student("Илья", 24)
+
+university.add_grade(1, "Python", 4.8)
+university.add_grade(2, "PHP", 4.3)
+
+students = university.get_students()
+print(students)
+
+
+python_students = university.get_students(subject="Python")
+print(python_students)
